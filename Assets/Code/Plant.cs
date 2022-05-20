@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 public class Plant : MonoBehaviour
 {
+	public static Plant plant_prefab;
+
 	private SpriteRenderer spriteRenderer;
 	public new CircleCollider2D collider;
 
@@ -76,6 +78,18 @@ public class Plant : MonoBehaviour
 		transform.localScale = new Vector3(size * scale_factor, size * scale_factor, 1);
 	}
 
+
+	public float BeEaten()
+	{
+		size *= 0.5f;
+		transform.localScale = new Vector3(size * scale_factor, size * scale_factor, 1);
+
+		last_seed_time = 0;
+		last_time_eaten = Time.time;
+
+		return size;
+	}
+
 	private void Seed()
 	{
 		size = max_size;
@@ -91,18 +105,38 @@ public class Plant : MonoBehaviour
 				new Vector2(Random.value * seeding_distance, Random.value * seeding_distance)
 				+ (Vector2)transform.position;
 
-			Instantiate(this, seedling_position, transform.rotation);
+			Create(this);
 		}
 	}
 
-	public float BeEaten()
+
+	public static void Create()
 	{
-		size *= 0.5f;
-		transform.localScale = new Vector3(size * scale_factor, size * scale_factor, 1);
+		if (plant_prefab == null)
+			plant_prefab = Resources.Load<Plant>("Plant_prefab");
 
-		last_seed_time = 0;
-		last_time_eaten = Time.time;
+		Vector2 position = new Vector2(Random.value * 38 - 19, Random.value * 38 - 19);
+		Quaternion rotation = new Quaternion(0, 0, 0, 0);
 
-		return size;
+		Plant plant = Instantiate(plant_prefab, position, rotation);
+
+		plant.name = "Plant_" + ((int)(Random.value * 1000)).ToString().PadLeft(3, '0');
+		plant.transform.localScale = new Vector3(1, 1, 1);
 	}
+
+	public static void Create(Plant parent)
+	{
+		Vector2 position = new Vector2(Random.value * 2, Random.value * 2) + (Vector2)parent.transform.position;
+		Quaternion rotation = new Quaternion(0, 0, 0, 0);
+
+		Plant plant = Instantiate(parent, position, rotation);
+
+		plant.name = "Plant" + ((int)(Random.value * 1000)).ToString().PadLeft(3, '0');
+		plant.transform.localScale = new Vector3(5, 5, 1);
+
+		plant.MutateFeatures();
+	}
+
+	// TODO
+	private void MutateFeatures() { }
 }

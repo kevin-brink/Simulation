@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PredatorCreature : BaseCreature
 {
+	public static PredatorCreature pred_prefab;
+
 	protected new void Start()
 	{
 		base.Start();
@@ -58,12 +60,27 @@ public class PredatorCreature : BaseCreature
 	{
 		current_energy *= 0.5f;
 		last_breed = Time.time;
-		Create(this, current_energy, max_energy, move_speed, transform.position);
+		Create(this, current_energy, max_energy, move_speed);
 	}
 
-	public static void Create(PredatorCreature parent, float starting_energy, float max_energy, float move_speed, Vector2 parent_position)
+
+	public static void Create()
 	{
-		Vector2 position = new Vector2(Random.value * 2, Random.value * 2) + parent_position;
+		if (pred_prefab == null)
+			pred_prefab = Resources.Load<PredatorCreature>("Predator_prefab");
+
+		Vector2 position = new Vector2(Random.value * 38 - 19, Random.value * 38 - 19);
+		Quaternion rotation = new Quaternion(0, 0, Random.value, Random.value);
+
+		PredatorCreature pred = Instantiate(pred_prefab, position, rotation);
+
+		pred.name = "Predator_" + ((int)(Random.value * 1000)).ToString().PadLeft(3, '0');
+		pred.transform.localScale = new Vector3(5, 5, 1);
+	}
+
+	public static void Create(PredatorCreature parent, float starting_energy, float max_energy, float move_speed)
+	{
+		Vector2 position = new Vector2(Random.value * 2, Random.value * 2) + (Vector2)parent.transform.position;
 		Quaternion rotation = new Quaternion(0, 0, Random.value, Random.value);
 
 		PredatorCreature pred = Instantiate(parent, position, rotation);
