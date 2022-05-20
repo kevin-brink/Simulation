@@ -49,25 +49,21 @@ public abstract class BaseCreature : MonoBehaviour
 
 		if (current_energy <= 0)
 		{
-			Debug.Log("I am dead. Oh boy.");
 			Destroy(gameObject);
 		}
 		else
 		{
-			//Debug.Log($"Current energy: {current_energy}");
 			current_energy -= Time.deltaTime;
 		}
 
 		if (((Vector2)transform.position - (Vector2)target).magnitude < 1)
 		{
-			Debug.Log(gameObject.name + " target reached...");
 			target = null;
 		}
 
 		Vector2? new_target = SelectTarget(sightComponent.GetTargets());
 		if (new_target is not null)
 		{
-			Debug.Log(gameObject.name + " acquired new target...");
 			target = new_target;
 		}
 

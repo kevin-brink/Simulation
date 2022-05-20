@@ -10,9 +10,8 @@ public class PreyCreature : BaseCreature
 		spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 		spriteRenderer.sprite = Resources.Load<Sprite>("prey");
 
-		Debug.Log("Before setting, tag: " + collider.gameObject.tag);
 		collider.gameObject.tag = "prey";
-		Debug.Log("After setting, tag: " + collider.gameObject.tag);
+		sightComponent.ray_positions = new() { 45f, 40f, 50f, 60f, 20f, 5f, 1f };
 	}
 
 	protected new void Update() => base.Update();

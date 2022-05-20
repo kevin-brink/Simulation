@@ -8,9 +8,11 @@ public class PredatorCreature : BaseCreature
 	protected new void Start()
 	{
 		base.Start();
-		collider.gameObject.tag = "predator";
 		spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 		spriteRenderer.sprite = Resources.Load<Sprite>("predator");
+
+		collider.gameObject.tag = "predator";
+		sightComponent.ray_positions = new() { 1f, 2f, 5f, 10f, 15f, 30f };
 	}
 
 	protected new void Update() => base.Update();

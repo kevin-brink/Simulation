@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SightComponent : MonoBehaviour
 {
-	protected List<float> ray_positions = new();
+	public List<float> ray_positions = new();
 
 	[SerializeField]
 	protected float sight_distance = 10f;
