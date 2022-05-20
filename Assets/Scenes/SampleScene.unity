@@ -216,4 +216,4 @@ MonoBehaviour:
   plant_prefab: {fileID: 0}
   init_predator_count: 2
   init_prey_count: 5
-  init_plant_count: 30
+  init_plant_count: 50

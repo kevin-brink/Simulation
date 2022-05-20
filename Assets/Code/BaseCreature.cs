@@ -20,6 +20,12 @@ public abstract class BaseCreature : MonoBehaviour
 	protected float max_energy = 100f;
 	protected float current_energy;
 
+	[SerializeField]
+	public float breed_interval = 3f;
+	protected float last_breed = 0f;
+
+	// Energy cost should increase with max size/energy and move speed (more later)
+	protected float energy_cost { get => move_speed * (max_energy / 100); }
 	protected float move_speed = 5f;
 
 	private Vector2? target;
@@ -44,7 +50,7 @@ public abstract class BaseCreature : MonoBehaviour
 
 	protected virtual void Update()
 	{
-		if (current_energy > max_energy)
+		if (current_energy > max_energy && last_breed + breed_interval <= Time.time)
 			Breed();
 
 		if (current_energy <= 0)
@@ -53,7 +59,7 @@ public abstract class BaseCreature : MonoBehaviour
 		}
 		else
 		{
-			current_energy -= Time.deltaTime;
+			current_energy -= Time.deltaTime * energy_cost;
 		}
 
 		if (((Vector2)transform.position - (Vector2)target).magnitude < 1)
