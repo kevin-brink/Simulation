@@ -57,7 +57,8 @@ public class PredatorCreature : BaseCreature
 	protected override void Breed()
 	{
 		current_energy *= 0.5f;
-		PredatorCreature.Create(this, current_energy, max_energy, move_speed, transform.position);
+		last_breed = Time.time;
+		Create(this, current_energy, max_energy, move_speed, transform.position);
 	}
 
 	public static void Create(PredatorCreature parent, float starting_energy, float max_energy, float move_speed, Vector2 parent_position)
