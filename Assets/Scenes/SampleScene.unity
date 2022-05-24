@@ -168,7 +168,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 20
+  orthographic size: 100
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -211,9 +211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62db8bf174322c84facad47274bad127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pred_prefab: {fileID: 0}
   prey_prefab: {fileID: 0}
   plant_prefab: {fileID: 0}
-  init_predator_count: 2
-  init_prey_count: 5
-  init_plant_count: 50
+  init_predator_count: 20
+  init_prey_count: 100
+  init_plant_count: 500

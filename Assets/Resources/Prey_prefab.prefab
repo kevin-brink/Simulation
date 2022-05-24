@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c20546626dd134f95252fc0981356f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ray_positions: []
   sight_distance: 10
   show_rays: 0
 --- !u!212 &4130428489255700091
@@ -132,6 +133,8 @@ MonoBehaviour:
   collider: {fileID: 0}
   starting_energy: 60
   max_energy: 100
+  breed_interval: 3
+  move_speed: 5
 --- !u!58 &-1225327011693653225
 CircleCollider2D:
   m_ObjectHideFlags: 0

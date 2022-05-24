@@ -115,7 +115,9 @@ public class Plant : MonoBehaviour
 		if (plant_prefab == null)
 			plant_prefab = Resources.Load<Plant>("Plant_prefab");
 
-		Vector2 position = new Vector2(Random.value * 38 - 19, Random.value * 38 - 19);
+		Vector2 position = new Vector2(Random.value * Spawner.x_size - Spawner.x_size / 2,
+				Random.value * Spawner.y_size - Spawner.y_size / 2
+				);
 		Quaternion rotation = new Quaternion(0, 0, 0, 0);
 
 		Plant plant = Instantiate(plant_prefab, position, rotation);

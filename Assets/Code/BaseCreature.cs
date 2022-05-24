@@ -26,6 +26,8 @@ public abstract class BaseCreature : MonoBehaviour
 
 	// Energy cost should increase with max size/energy and move speed (more later)
 	protected float energy_cost { get => move_speed * (max_energy / 100); }
+
+	[SerializeField]
 	protected float move_speed = 5f;
 
 	private Vector2? target;
@@ -55,7 +57,7 @@ public abstract class BaseCreature : MonoBehaviour
 
 		if (current_energy <= 0)
 		{
-			Destroy(gameObject);
+			Kill();
 		}
 		else
 		{
@@ -74,7 +76,9 @@ public abstract class BaseCreature : MonoBehaviour
 		}
 
 		if (target is null)
-			target = new(Random.value * 38 - 19, Random.value * 38 - 19);
+			target = new(Random.value * Spawner.x_size - Spawner.x_size / 2,
+				Random.value * Spawner.y_size - Spawner.y_size / 2
+				);
 
 		moveComponent.MoveToward((Vector2)target);
 	}
@@ -115,7 +119,10 @@ public abstract class BaseCreature : MonoBehaviour
 		this.starting_energy = starting_energy;
 		this.max_energy = max_energy + (Random.value * 2 * max_energy_mutability) - max_energy_mutability;
 		this.move_speed = move_speed + (Random.value * 2 * move_speed_mutability) - move_speed_mutability;
+
+		last_breed = Time.time;
 	}
 
 	protected abstract void Breed();
+	public abstract void Kill();
 }

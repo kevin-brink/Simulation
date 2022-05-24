@@ -8,7 +8,7 @@ public class SightComponent : MonoBehaviour
 	public List<float> ray_positions = new();
 
 	[SerializeField]
-	protected float sight_distance = 10f;
+	public float sight_distance = 10f;
 
 	[SerializeField]
 	private bool show_rays = false;
