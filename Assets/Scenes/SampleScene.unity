@@ -157,7 +157,7 @@ Camera:
   m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
+  m_FocalLength: 20
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -211,8 +211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62db8bf174322c84facad47274bad127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prey_prefab: {fileID: 0}
-  plant_prefab: {fileID: 0}
-  init_predator_count: 20
-  init_prey_count: 100
-  init_plant_count: 500
+  start_x_size: 100
+  start_y_size: 100
+  init_predator_count: 10
+  init_prey_count: 50
+  init_plant_count: 250

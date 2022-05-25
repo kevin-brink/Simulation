@@ -64,7 +64,7 @@ public abstract class BaseCreature : MonoBehaviour
 			current_energy -= Time.deltaTime * energy_cost;
 		}
 
-		if (((Vector2)transform.position - (Vector2)target).magnitude < 1)
+		if (target is not null && ((Vector2)transform.position - (Vector2)target).magnitude < 1)
 		{
 			target = null;
 		}
@@ -83,16 +83,20 @@ public abstract class BaseCreature : MonoBehaviour
 		moveComponent.MoveToward((Vector2)target);
 	}
 
-	protected abstract Vector2? SelectTarget(List<RaycastHit2D> predators, List<RaycastHit2D> prey, List<RaycastHit2D> plants);
-	protected Vector2? SelectTarget(List<RaycastHit2D> targets)
+	protected abstract Vector2? SelectTarget(List<Collider2D> predators, List<Collider2D> prey, List<Collider2D> plants);
+	protected Vector2? SelectTarget(List<Collider2D> targets)
 	{
-		List<RaycastHit2D> predators = new();
-		List<RaycastHit2D> plants = new();
-		List<RaycastHit2D> prey = new();
+		List<Collider2D> predators = new();
+		List<Collider2D> plants = new();
+		List<Collider2D> prey = new();
 
-		foreach (RaycastHit2D target in targets)
+		foreach (Collider2D target in targets)
 		{
-			switch (target.collider.gameObject.tag)
+			// idk why this is ever happening, but...it is. Investigate at some point
+			if (target == null)
+				continue;
+
+			switch (target.gameObject.tag)
 			{
 				case "predator":
 					predators.Add(target);

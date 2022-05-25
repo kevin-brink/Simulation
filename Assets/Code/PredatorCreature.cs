@@ -53,14 +53,16 @@ public class PredatorCreature : BaseCreature
 	protected new void Update() => base.Update();
 
 	protected override Vector2? SelectTarget(
-		List<RaycastHit2D> predators, List<RaycastHit2D> prey, List<RaycastHit2D> plants
+		List<Collider2D> predators, List<Collider2D> prey, List<Collider2D> plants
 		)
 	{
 		if (prey.Count > 0)
 		{
-			prey.Sort((RaycastHit2D x, RaycastHit2D y) => x.distance.CompareTo(y.distance));
+			prey.Sort((Collider2D x, Collider2D y) =>
+				(transform.position - x.transform.position).magnitude
+				.CompareTo((transform.position - y.transform.position).magnitude));
 
-			return prey[0].point;
+			return prey[0].transform.position;
 		}
 
 		return null;
@@ -77,6 +79,7 @@ public class PredatorCreature : BaseCreature
 			case "prey":
 				// Eat this dude
 				PreyCreature prey = other.GetComponentInParent<PreyCreature>();
+				//Debug.Log($"{name} has eaten {prey.name}");
 				current_energy += prey.BeEaten();
 				break;
 
@@ -136,6 +139,7 @@ public class PredatorCreature : BaseCreature
 	public override void Kill()
 	{
 		pred_list.Remove(this);
+		sightComponent.Kill();
 		Destroy(gameObject);
 	}
 }

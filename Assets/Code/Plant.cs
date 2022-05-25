@@ -29,6 +29,9 @@ public class Plant : MonoBehaviour
 	private float last_seed_time = 0f;
 	private float last_time_eaten = 0f;
 
+	private float last_growth_update = 0f;
+	private readonly float growth_update_interval = 1f;
+
 	// Plants dont mutate yet because theres no limiting factors. All these values
 	//		have a clear selection pressure one direction and have no reason not
 	//		to move toward zero/infinity depending on the factor. Need to come up
@@ -74,8 +77,13 @@ public class Plant : MonoBehaviour
 		if (size <= 2.0f)
 			Destroy(gameObject);
 
-		collider.radius = Mathf.Sqrt(size) / 100;
-		transform.localScale = new Vector3(size * scale_factor, size * scale_factor, 1);
+		// Only update this periodically for performance reasons
+		if (last_growth_update + growth_update_interval < Time.time)
+		{
+			collider.radius = Mathf.Sqrt(size) / 100;
+			transform.localScale = new Vector3(size * scale_factor, size * scale_factor, 1);
+			last_growth_update = Time.deltaTime;
+		}
 	}
 
 

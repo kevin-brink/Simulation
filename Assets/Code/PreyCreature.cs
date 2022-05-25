@@ -50,21 +50,23 @@ public class PreyCreature : BaseCreature
 
 	protected new void Update() => base.Update();
 
-	protected override Vector2? SelectTarget(List<RaycastHit2D> predators, List<RaycastHit2D> prey, List<RaycastHit2D> plants)
+	protected override Vector2? SelectTarget(List<Collider2D> predators, List<Collider2D> prey, List<Collider2D> plants)
 	{
 		if (predators.Count > 0)
 		{
-			// Sort list of found predators by distance 
-			predators.Sort((RaycastHit2D x, RaycastHit2D y) => x.distance.CompareTo(y.distance));
+			predators.Sort((Collider2D x, Collider2D y) =>
+				(transform.position - x.transform.position).magnitude
+				.CompareTo((transform.position - y.transform.position).magnitude));
+
 			// Get the vector pointing exactly away from the nearest one
 			Vector2 target = 2 * transform.position - predators[0].transform.position;
 			return target;
 		}
 
-		List<RaycastHit2D> plant_targets = new();
-		foreach (RaycastHit2D target in plants)
+		List<Collider2D> plant_targets = new();
+		foreach (Collider2D target in plants)
 		{
-			Plant plant = target.collider.GetComponentInParent<Plant>();
+			Plant plant = target.GetComponentInParent<Plant>();
 			if (plant is not null && plant.can_be_eaten)
 			{
 				plant_targets.Add(target);
@@ -74,8 +76,11 @@ public class PreyCreature : BaseCreature
 
 		if (plant_targets.Count > 0)
 		{
-			plant_targets.Sort((RaycastHit2D x, RaycastHit2D y) => x.distance.CompareTo(y.distance));
-			return plant_targets[0].point;
+			plants.Sort((Collider2D x, Collider2D y) =>
+				(transform.position - x.transform.position).magnitude
+				.CompareTo((transform.position - y.transform.position).magnitude));
+
+			return plants[0].transform.position;
 		}
 
 		return null;
@@ -156,6 +161,7 @@ public class PreyCreature : BaseCreature
 	public override void Kill()
 	{
 		prey_list.Remove(this);
+		sightComponent.Kill();
 		Destroy(gameObject);
 	}
 }
